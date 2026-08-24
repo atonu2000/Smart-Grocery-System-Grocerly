@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grocerly — Smart Grocery Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="toast"></div>
+<div class="app">
+<aside class="sidebar" id="sidebar">
+  <div class="brand"><div class="brand-mark">G</div><div><strong>Grocerly</strong><small>SMART GROCERY OS</small></div></div>
+  <div class="workspace"><span>WORKSPACE</span><b>PERSONAL</b></div>
+  <nav>
+    <button class="nav active" data-view="dashboard"><i>⌂</i>Dashboard</button>
+    <button class="nav" data-view="inventory"><i>▦</i>Inventory <em id="navStock">0</em></button>
+    <button class="nav" data-view="shopping"><i>✓</i>Shopping List <em id="navCart">0</em></button>
+    <button class="nav" data-view="analytics"><i>◫</i>Analytics</button>
+    <button class="nav" data-view="settings"><i>⚙</i>Settings</button>
+  </nav>
+  <div class="sidebar-bottom"><div class="mini-card"><span>SMART TIP</span><strong id="smartTip">Keep your stock fresh.</strong><p>Grocerly learns from your pantry activity and highlights what needs attention.</p></div>
+  <div class="profile"><div class="avatar">TA</div><div><b>Project User</b><small>Final Year Workspace</small></div><span>•••</span></div></div>
+</aside>
+<main class="main">
+<header class="topbar"><div class="mobile-left"><button class="hamburger" id="hamburger">☰</button><div><span class="eyebrow">SMART GROCERY MANAGEMENT</span><h1 id="pageTitle">Dashboard</h1></div></div>
+<div class="top-actions"><button class="icon-btn" id="themeBtn" title="Toggle theme">☾</button><button class="icon-btn" id="refreshBtn" title="Refresh insights">↻</button><div class="user-dot">T</div></div></header>
+
+<section id="dashboard" class="view active-view">
+  <div class="hero"><div><span class="eyebrow">GOOD TO SEE YOU</span><h2>Your grocery command center.</h2><p>Track inventory, control spending, build smarter shopping lists, and keep your pantry healthy from one clean workspace.</p><button class="primary" data-view="inventory">+ Add grocery item</button></div><div class="hero-orb"><div>🛒</div><span>LIVE PANTRY</span><b id="heroHealth">Healthy</b></div></div>
+  <div class="kpis">
+    <div class="kpi"><div class="kpi-icon green">▦</div><span>Total Items</span><strong id="kpiItems">0</strong><small id="kpiItemsSub">0 categories</small></div>
+    <div class="kpi"><div class="kpi-icon orange">!</div><span>Low Stock</span><strong id="kpiLow">0</strong><small>Needs attention</small></div>
+    <div class="kpi"><div class="kpi-icon blue">$</div><span>Inventory Value</span><strong id="kpiValue">$0</strong><small>Estimated current value</small></div>
+    <div class="kpi"><div class="kpi-icon purple">✓</div><span>Shopping Items</span><strong id="kpiShopping">0</strong><small id="kpiDone">0 completed</small></div>
+  </div>
+  <div class="grid-2">
+    <article class="panel"><div class="panel-head"><div><h3>Stock health</h3><p>Current inventory distribution</p></div><button class="text-btn" data-view="inventory">Manage →</button></div><div class="health"><div class="donut" id="donut"><span id="donutPct">0%</span></div><div class="legend"><div><i class="dot good"></i><span>Healthy</span><b id="healthyCount">0</b></div><div><i class="dot warn"></i><span>Low stock</span><b id="lowCount">0</b></div><div><i class="dot exp"></i><span>Expired</span><b id="expiredCount">0</b></div></div></div></article>
+    <article class="panel"><div class="panel-head"><div><h3>Budget pulse</h3><p>Monthly grocery spending</p></div><button class="text-btn" data-view="analytics">View report →</button></div><div class="budget-big"><div><span>Spent this month</span><strong id="spent">$0</strong></div><div class="budget-limit"><span>Budget</span><b id="budget">$500</b></div></div><div class="bar"><div id="budgetBar"></div></div><div class="budget-meta"><span id="budgetUsed">0% used</span><span id="budgetRemain">$500 remaining</span></div></article>
+  </div>
+  <div class="grid-2">
+    <article class="panel"><div class="panel-head"><div><h3>Attention needed</h3><p>Items that should be handled first</p></div></div><div id="attentionList" class="clean-list"></div></article>
+    <article class="panel"><div class="panel-head"><div><h3>Quick actions</h3><p>Common tasks, one click away</p></div></div><div class="quick-grid"><button data-action="add">＋<b>Add inventory</b><small>Record a grocery item</small></button><button data-view="shopping">✓<b>Build shopping list</b><small>Plan your next trip</small></button><button data-view="analytics">◫<b>Open analytics</b><small>Review spending</small></button><button data-action="demo">✦<b>Load demo data</b><small>Populate a sample workspace</small></button></div></article>
+  </div>
+</section>
+
+<section id="inventory" class="view">
+  <div class="section-head"><div><span class="eyebrow">PANTRY CONTROL</span><h2>Inventory</h2><p>Know exactly what you have, what is running low, and what needs replacing.</p></div><button class="primary" data-action="add">+ Add item</button></div>
+  <div class="toolbar"><label class="search">⌕ <input id="search" placeholder="Search by item or category..."></label><select id="categoryFilter"><option value="all">All categories</option></select><select id="stockFilter"><option value="all">All stock status</option><option value="healthy">Healthy</option><option value="low">Low stock</option><option value="expired">Expired</option></select></div>
+  <article class="panel table-panel"><div class="table-wrap"><table><thead><tr><th>Item</th><th>Category</th><th>Quantity</th><th>Unit price</th><th>Value</th><th>Status</th><th>Expiry</th><th></th></tr></thead><tbody id="inventoryBody"></tbody></table></div></article>
+</section>
+
+<section id="shopping" class="view">
+  <div class="section-head"><div><span class="eyebrow">TRIP PLANNER</span><h2>Shopping List</h2><p>Turn low-stock signals into a practical, budget-aware grocery trip.</p></div><button class="primary" data-action="addShopping">+ Add item</button></div>
+  <div class="shopping-layout"><article class="panel"><div class="panel-head"><div><h3>My list</h3><p id="shoppingSummary">0 items</p></div><button class="text-btn" data-action="clearDone">Clear completed</button></div><div id="shoppingBody" class="shopping-list"></div></article>
+  <article class="panel budget-card"><div class="panel-head"><div><h3>Trip estimate</h3><p>Keep the next run under control</p></div><span class="money-icon">$</span></div><div class="trip-total" id="tripTotal">$0</div><div class="bar"><div id="tripBar"></div></div><div class="budget-meta"><span>Estimated cost</span><span id="tripBudgetText">$0 budget</span></div><button class="wide-btn" data-view="analytics">Review budget analytics</button></article></div>
+</section>
+
+<section id="analytics" class="view">
+  <div class="section-head"><div><span class="eyebrow">DECISION SUPPORT</span><h2>Analytics</h2><p>Useful signals for grocery planning, spending, and inventory health.</p></div><button class="secondary" id="exportBtn">Export report</button></div>
+  <div class="analytics-grid"><div class="metric"><span>Monthly spend</span><strong id="aSpend">$0</strong><small>Recorded shopping spend</small></div><div class="metric"><span>Average item value</span><strong id="aAvg">$0</strong><small>Across active inventory</small></div><div class="metric"><span>Completion rate</span><strong id="aRate">0%</strong><small>Shopping tasks completed</small></div></div>
+  <div class="grid-2"><article class="panel"><div class="panel-head"><div><h3>Category value</h3><p>Inventory value by category</p></div></div><div id="categoryChart" class="bars"></div></article>
+  <article class="panel"><div class="panel-head"><div><h3>Smart insights</h3><p>Automatically generated from your workspace</p></div></div><div id="insights" class="insights"></div></article></div>
+</section>
+
+<section id="settings" class="view">
+ <div class="section-head"><div><span class="eyebrow">WORKSPACE</span><h2>Settings</h2><p>Configure your grocery management preferences.</p></div></div>
+ <div class="settings-grid"><article class="panel"><h3>Budget configuration</h3><p class="muted">Set the monthly grocery budget used across dashboard analytics.</p><label class="field">Monthly budget<input id="budgetInput" type="number" min="0" step="10"></label><button class="primary" id="saveBudget">Save budget</button></article>
+ <article class="panel"><h3>Data controls</h3><p class="muted">Your demo workspace uses browser LocalStorage for persistence.</p><div class="data-actions"><button class="secondary" id="loadDemo">Load demo dataset</button><button class="danger" id="resetData">Reset all data</button></div></article>
+ <article class="panel"><h3>Product principles</h3><ul class="principles"><li>Inventory-first decision making</li><li>Low-stock visibility</li><li>Budget-aware shopping</li><li>Persistent client-side data</li><li>Responsive, accessible interface</li></ul></article></div>
+</section>
+</main></div>
+
+<div class="modal-backdrop" id="modal"><div class="modal"><div class="modal-head"><div><span class="eyebrow">INVENTORY RECORD</span><h3 id="modalTitle">Add grocery item</h3></div><button class="close" id="closeModal">×</button></div>
+<form id="itemForm"><input type="hidden" id="itemId"><div class="form-grid">
+<label>Name<input id="fName" required placeholder="e.g. Milk"></label><label>Category<select id="fCategory"><option>Produce</option><option>Dairy</option><option>Meat</option><option>Pantry</option><option>Bakery</option><option>Beverages</option><option>Frozen</option><option>Household</option></select></label>
+<label>Quantity<input id="fQty" type="number" min="0" step="0.1" required></label><label>Low-stock threshold<input id="fMin" type="number" min="0" step="0.1" required></label>
+<label>Unit price<input id="fPrice" type="number" min="0" step="0.01" required></label><label>Expiry date<input id="fExpiry" type="date"></label>
+</div><div class="modal-actions"><button type="button" class="secondary" id="cancelModal">Cancel</button><button class="primary">Save item</button></div></form></div></div>
+<script src="app.js"></script>
+</body></html>
